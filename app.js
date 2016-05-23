@@ -1,4 +1,5 @@
 //MODULE
+//ngRoute - wraps up the HTTP object and makes it easy to go out onto the internet and collect data
 var weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource']);
 
 
@@ -47,12 +48,25 @@ weatherApp.controller('homeController', ['$scope', 'cityService', function($scop
 }]);
 
 
-weatherApp.controller('forecastController', ['$scope', 'cityService', function($scope, cityService){
+weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService', function($scope, $resource, cityService){
     
     
     $scope.city = cityService.city;
     
+    $scope.weatherAPI = $resource('http://api.openweathermap.org/data/2.5/forecast/daily',{
+        //This basically tells the app that it's okay to grab the JSON from an online source. You can trust it and it's not an attempt at a hack
+        callback : 'JSON_CALLBACK'
+    }, {get:{method:'JSONP'}});
+        
+    $scope.weatherResult = $scope.weatherAPI.get({q:$scope.city, cnt:2});
+    
+    console.log($scope);
+        
+    
+    
 }]);
 
+
+//http://api.openweathermap.org/data/2.5/forecast/daily?APPID=14177fc184afb4b3a26bb6de5abdf62b
 
 
