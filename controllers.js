@@ -1,6 +1,6 @@
 
 //CONTROLLERS
-weatherApp.controller('homeController', ['$scope', 'cityService', function($scope, cityService){
+weatherApp.controller('homeController', ['$scope', '$location', 'cityService', function($scope, $location, cityService){
     
     //City for this scope is equal to the city in the cityService service
     $scope.city = cityService.city;
@@ -10,6 +10,11 @@ weatherApp.controller('homeController', ['$scope', 'cityService', function($scop
     $scope.$watch('city', function(){
         cityService.city = $scope.city;
     })
+    
+    $scope.submit  = function(){
+        
+        $location.path = ("/forecast");
+    };
     
 }]);
 
